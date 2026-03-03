@@ -1,0 +1,51 @@
+<div class="bg-white p-8 lg:p-12 rounded-lg shadow-xl shadow-slate-200/50 border border-border animate-slide-up">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Professional Profile</h2>
+        <p class="text-brand-muted mt-2">Update your personal information and professional details.</p>
+    </div>
+
+    <form (ngSubmit)="updateProfile()" class="space-y-6 max-w-2xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">First Name</label>
+                <input type="text" [(ngModel)]="profileData.first_name" name="first_name"
+                    class="w-full bg-slate-50 border border-border p-3 rounded focus:outline-none focus:border-accent transition-colors">
+            </div>
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Last Name</label>
+                <input type="text" [(ngModel)]="profileData.last_name" name="last_name"
+                    class="w-full bg-slate-50 border border-border p-3 rounded focus:outline-none focus:border-accent transition-colors">
+            </div>
+        </div>
+        <div class="space-y-2">
+            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Phone Number</label>
+            <input type="text" [(ngModel)]="profileData.phone_number" name="phone_number"
+                placeholder="e.g. +1 234 567 890"
+                class="w-full bg-slate-50 border border-border p-3 rounded focus:outline-none focus:border-accent transition-colors">
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Professional Title</label>
+            <input type="text" [(ngModel)]="profileData.professional_title" name="professional_title"
+                placeholder="e.g. Senior Software Architect"
+                class="w-full bg-slate-50 border border-border p-3 rounded focus:outline-none focus:border-accent transition-colors">
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Professional Summary</label>
+            <textarea [(ngModel)]="profileData.bio" name="bio" rows="4"
+                placeholder="Tell us about your professional background..."
+                class="w-full bg-slate-50 border border-border p-3 rounded focus:outline-none focus:border-accent transition-colors resize-none"></textarea>
+        </div>
+
+        <div *ngIf="message" [ngClass]="{'bg-green-50 text-green-600': !isError, 'bg-red-50 text-red-600': isError}"
+            class="p-4 rounded border border-current/20 text-sm font-medium animate-fade-in">
+            {{ message }}
+        </div>
+
+        <button type="submit"
+            class="bg-brand-primary text-white px-8 py-3 rounded font-bold text-sm uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl active:scale-[0.98]">
+            Update Credentials
+        </button>
+    </form>
+</div>

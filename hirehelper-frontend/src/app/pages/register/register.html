@@ -1,0 +1,233 @@
+<div class="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
+    <div
+        class="w-full max-w-4xl bg-white rounded-lg shadow-xl shadow-slate-200/50 border border-border overflow-hidden flex flex-col md:flex-row animate-fade-in">
+        <!-- Corporate Side Panel (Styled like Login) -->
+        <div class="hidden md:flex md:w-[45%] bg-brand-primary p-12 text-white flex-col justify-between relative">
+            <div class="absolute inset-0 opacity-10 pointer-events-none animate-float">
+                <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path d="M0 0 L100 0 L100 100 Z" fill="currentColor"></path>
+                </svg>
+            </div>
+
+            <div class="relative z-10">
+                <div class="mb-12">
+                    <span class="text-xl font-bold uppercase tracking-[0.2em] text-white/60">HireHelper</span>
+                </div>
+                <h2 class="text-4xl lg:text-5xl font-bold leading-tight tracking-tight">Expand <br>Your Reach.</h2>
+                <p class="mt-6 text-slate-300 text-lg font-light leading-relaxed max-w-xs">Join our ecosystem of
+                    enterprises and elite service providers.</p>
+            </div>
+
+            <div class="relative z-10 pt-12 border-t border-white/10">
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded bg-white/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold">Verified Network</h4>
+                            <p class="text-white/40 text-[10px] uppercase tracking-wider">Trusted Professionals Only</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form section -->
+        <div class="w-full md:w-[55%] p-8 lg:p-12 flex flex-col justify-center">
+            <div class="mb-8 animate-slide-up">
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Create Account</h1>
+                <p class="text-brand-muted text-sm mt-2">Enter your professional details to begin.</p>
+            </div>
+
+            <form (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
+
+                <!-- First Name & Last Name -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-slide-up delay-100">
+                    <div class="space-y-1">
+                        <label for="firstName"
+                            class="text-xs font-bold text-brand-secondary/80 uppercase tracking-widest ml-1">First
+                            Name</label>
+                        <input type="text" id="firstName" name="firstName" [(ngModel)]="firstName"
+                            (blur)="validateFirstName()" [class.border-red-400]="firstNameError()"
+                            [class.border-green-400]="!firstNameError() && firstName"
+                            class="w-full px-4 py-3 bg-white border border-border rounded focus:ring-4 focus:ring-accent/5 focus:border-accent outline-none transition-all placeholder:text-slate-300 text-sm"
+                            placeholder="John">
+                        @if (firstNameError()) {
+                        <p class="text-red-500 text-[11px] ml-1 mt-0.5">{{ firstNameError() }}</p>
+                        }
+                    </div>
+
+                    <div class="space-y-1">
+                        <label for="lastName"
+                            class="text-xs font-bold text-brand-secondary/80 uppercase tracking-widest ml-1">Last
+                            Name</label>
+                        <input type="text" id="lastName" name="lastName" [(ngModel)]="lastName"
+                            (blur)="validateLastName()" [class.border-red-400]="lastNameError()"
+                            [class.border-green-400]="!lastNameError() && lastName"
+                            class="w-full px-4 py-3 bg-white border border-border rounded focus:ring-4 focus:ring-accent/5 focus:border-accent outline-none transition-all placeholder:text-slate-300 text-sm"
+                            placeholder="Doe">
+                        @if (lastNameError()) {
+                        <p class="text-red-500 text-[11px] ml-1 mt-0.5">{{ lastNameError() }}</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="space-y-1 animate-slide-up delay-200">
+                    <label for="emailId"
+                        class="text-xs font-bold text-brand-secondary/80 uppercase tracking-widest ml-1">Corporate
+                        Email</label>
+                    <input type="email" id="emailId" name="emailId" [(ngModel)]="emailId" (blur)="validateEmail()"
+                        [class.border-red-400]="emailError()" [class.border-green-400]="!emailError() && emailId"
+                        class="w-full px-4 py-3 bg-white border border-border rounded focus:ring-4 focus:ring-accent/5 focus:border-accent outline-none transition-all placeholder:text-slate-300 text-sm"
+                        placeholder="john@company.com">
+                    @if (emailError()) {
+                    <p class="text-red-500 text-[11px] ml-1 mt-0.5">{{ emailError() }}</p>
+                    }
+                </div>
+
+                <!-- Phone & Password -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-slide-up delay-300">
+                    <div class="space-y-1">
+                        <label for="phoneNumber"
+                            class="text-xs font-bold text-brand-secondary/80 uppercase tracking-widest ml-1">Contact
+                            No.</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" [(ngModel)]="phoneNumber"
+                            (blur)="validatePhone()" [class.border-red-400]="phoneError()"
+                            [class.border-green-400]="!phoneError() && phoneNumber"
+                            class="w-full px-4 py-3 bg-white border border-border rounded focus:ring-4 focus:ring-accent/5 focus:border-accent outline-none transition-all placeholder:text-slate-300 text-sm"
+                            placeholder="+91 9876543210">
+                        @if (phoneError()) {
+                        <p class="text-red-500 text-[11px] ml-1 mt-0.5">{{ phoneError() }}</p>
+                        }
+                    </div>
+
+                    <div class="space-y-1">
+                        <label for="password"
+                            class="text-xs font-bold text-brand-secondary/80 uppercase tracking-widest ml-1">Password</label>
+                        <input type="password" id="password" name="password" [(ngModel)]="password"
+                            (blur)="validatePassword()" (input)="validatePassword()"
+                            [class.border-red-400]="passwordError()"
+                            [class.border-green-400]="!passwordError() && password"
+                            class="w-full px-4 py-3 bg-white border border-border rounded focus:ring-4 focus:ring-accent/5 focus:border-accent outline-none transition-all placeholder:text-slate-300 text-sm"
+                            placeholder="••••••••">
+                        @if (passwordError()) {
+                        <p class="text-red-500 text-[11px] ml-1 mt-0.5">{{ passwordError() }}</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Password Strength Bar -->
+                @if (password) {
+                <div class="space-y-1 animate-slide-up">
+                    <div class="flex justify-between items-center ml-1">
+                        <span
+                            class="text-[10px] font-bold uppercase tracking-widest text-brand-secondary/60">Strength</span>
+                        <span class="text-[11px] font-semibold" [style.color]="passwordStrength.color">{{
+                            passwordStrength.label }}</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full rounded-full transition-all duration-300"
+                            [style.width.%]="passwordStrength.score * 20"
+                            [style.background-color]="passwordStrength.color">
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 ml-1">Min 8 chars, uppercase, lowercase, number &amp; special
+                        character.</p>
+                </div>
+                }
+
+                <!-- Confirm Password -->
+                <div class="space-y-1 animate-slide-up delay-300">
+                    <label for="confirmPassword"
+                        class="text-xs font-bold text-brand-secondary/80 uppercase tracking-widest ml-1">Confirm
+                        Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword"
+                        (blur)="validateConfirmPassword()" [class.border-red-400]="confirmPasswordError()"
+                        [class.border-green-400]="!confirmPasswordError() && confirmPassword"
+                        class="w-full px-4 py-3 bg-white border border-border rounded focus:ring-4 focus:ring-accent/5 focus:border-accent outline-none transition-all placeholder:text-slate-300 text-sm"
+                        placeholder="••••••••">
+                    @if (confirmPasswordError()) {
+                    <p class="text-red-500 text-[11px] ml-1 mt-0.5">{{ confirmPasswordError() }}</p>
+                    }
+                </div>
+
+                <!-- Role -->
+                <div class="space-y-1.5 animate-slide-up delay-400">
+                    <label class="text-xs font-bold text-brand-secondary/80 uppercase tracking-widest ml-1">Operating
+                        Role</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label
+                            class="relative flex items-center justify-center p-3 rounded border border-border cursor-pointer transition-all text-xs font-semibold"
+                            [class.border-accent]="role === 'user'" [class.bg-accent/5]="role === 'user'"
+                            [class.text-accent]="role === 'user'">
+                            <input type="radio" name="role" value="user" [(ngModel)]="role" class="sr-only">
+                            User
+                        </label>
+                        <label
+                            class="relative flex items-center justify-center p-3 rounded border border-border cursor-pointer transition-all text-xs font-semibold"
+                            [class.border-accent]="role === 'helper'" [class.bg-accent/5]="role === 'helper'"
+                            [class.text-accent]="role === 'helper'">
+                            <input type="radio" name="role" value="helper" [(ngModel)]="role" class="sr-only">
+                            Helper
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Global Error -->
+                @if (errorMessage()) {
+                <div
+                    class="p-3 bg-red-50/50 rounded border border-red-100 flex items-center space-x-2 text-red-600 text-[11px] animate-shake">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="font-medium">{{ errorMessage() }}</span>
+                </div>
+                }
+
+                <!-- Success Message -->
+                @if (successMessage()) {
+                <div
+                    class="p-3 bg-green-50 rounded border border-green-200 flex items-center space-x-2 text-green-700 text-[11px]">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span class="font-medium">{{ successMessage() }}</span>
+                </div>
+                }
+
+                <!-- Submit -->
+                <div class="pt-2 animate-slide-up delay-500">
+                    <button type="submit" [disabled]="isLoading()"
+                        class="w-full bg-brand-primary hover:bg-brand-primary-hover text-white font-bold py-4 rounded shadow-lg shadow-brand-primary/10 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                        @if (isLoading()) {
+                        <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        Registering...
+                        } @else {
+                        Complete Registration
+                        }
+                    </button>
+                </div>
+
+                <p
+                    class="text-center text-sm text-brand-muted pt-4 border-t border-slate-100 animate-slide-up delay-500">
+                    Already have access?
+                    <a routerLink="/login"
+                        class="text-accent font-bold hover:underline decoration-2 underline-offset-4 ml-1">Sign In
+                    </a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+/* Hire-a-Helper — Professional corporate design system */
+
+@import "tailwindcss";
+
+@theme {
+  /* Premium Corporate: Deep Emerald & Slate */
+  --color-brand-primary: #064e3b;
+  /* Emerald 950 */
+  --color-brand-primary-hover: #065f46;
+  /* Emerald 900 */
+
+  /* Sophisticated slate palette */
+  --color-brand-secondary: #334155;
+  --color-brand-muted: #64748b;
+
+  /* Trust-building Emerald for modern corporate actions */
+  --color-accent: #10b981;
+  /* Emerald 500 */
+  --color-accent-hover: #059669;
+  /* Emerald 600 */
+  --color-accent-light: #f0fdf4;
+  /* Emerald 50 */
+
+  /* Refined white-label backgrounds */
+  --color-background: #fdfdfd;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+
+  --font-sans: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+
+  /* Executive razor-sharp radii */
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 8px;
+
+  @keyframes shake {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-2px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(2px);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideup {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-slate-700 font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-bold tracking-tight text-slate-900;
+  }
+
+  a {
+    @apply text-accent hover:text-accent-hover transition-colors;
+  }
+
+  .animate-shake {
+    animation: shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+}
