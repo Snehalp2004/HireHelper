@@ -1,0 +1,66 @@
+<div class="auth-container">
+  <div class="auth-card">
+
+    <div class="top-bar">
+      <button class="back-btn" type="button" (click)="goBack()">← Back</button>
+    </div>
+
+    <div class="brand-section">
+      <h1 class="brand-title">HireHelper</h1>
+      <p class="brand-tagline">Find help. Post tasks. Get work done easily.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="form-header">
+      <h2>Login to your account</h2>
+      <p>Enter your details to continue</p>
+    </div>
+
+    <form (ngSubmit)="loginUser()" class="auth-form">
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          [(ngModel)]="email"
+          name="email"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        >
+      </div>
+
+      <button type="submit" class="login-btn" [disabled]="!email || !password">
+        Login
+      </button>
+    </form>
+
+    <p class="error-text" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+    <div *ngIf="errorMsg === 'Please verify your account'" class="verify-box">
+      <button type="button" class="verify-btn" (click)="goToVerify()">
+        Verify Your Account
+      </button>
+    </div>
+
+    <div class="bottom-text">
+      <p>
+        Don't have an account?
+        <a routerLink="/register">Register</a>
+      </p>
+    </div>
+
+  </div>
+</div>

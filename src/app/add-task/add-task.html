@@ -1,0 +1,30 @@
+<h2>Add Task</h2>
+
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+
+  <label>Title*</label>
+  <input type="text" formControlName="title">
+  <div *ngIf="taskForm.controls['title'].invalid && taskForm.controls['title'].touched">
+    Title is required
+  </div>
+
+  <label>Description</label>
+  <textarea formControlName="description"></textarea>
+
+  <label>Location</label>
+  <input type="text" formControlName="Loc">
+
+  <label>Start Time*</label>
+  <input type="datetime-local" formControlName="start_time">
+
+  <label>End Time</label>
+  <input type="datetime-local" formControlName="end_time">
+
+  <label>Picture URL</label>
+  <input type="text" formControlName="picture">
+
+  <button type="submit">Add Task</button>
+
+</form>
+
+<p style="color:red">{{errorMessage}}</p>

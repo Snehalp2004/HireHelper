@@ -1,0 +1,78 @@
+<div class="dashboard-container">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo">HireHelper</h2>
+
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active">
+          <i class="icon">🏠</i> Dashboard
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/feed" routerLinkActive="active">
+          <i class="icon">📰</i> Feed
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/my-tasks" routerLinkActive="active">
+          <i class="icon">📋</i> My Tasks
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/add-task" routerLinkActive="active">
+          <i class="icon">➕</i> Add Task
+        </a>
+      </li>
+
+      <li>
+        <a (click)="logout()">
+          <i class="icon">🚪</i> Logout
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+      <h2>Welcome Back 👋</h2>
+      <div class="user-info">
+    <span>{{ userName }}</span>
+        <img src="https://i.pravatar.cc/40" alt="profile">
+      </div>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="cards">
+      <div class="card">
+        <h3>Total Tasks</h3>
+        <p>12</p>
+      </div>
+
+      <div class="card">
+        <h3>Completed</h3>
+        <p>8</p>
+      </div>
+
+      <div class="card">
+        <h3>Pending</h3>
+        <p>4</p>
+      </div>
+
+      <div class="card">
+        <h3>Earnings</h3>
+        <p>₹4,500</p>
+      </div>
+    </div>
+
+    <router-outlet></router-outlet>
+
+  </main>
+</div>

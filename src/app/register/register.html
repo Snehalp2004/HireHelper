@@ -1,0 +1,93 @@
+<div class="auth-container">
+  <div class="auth-card">
+
+    <div class="top-bar">
+      <button class="back-btn" type="button" (click)="goBack()">← Back</button>
+    </div>
+
+    <div class="brand-section">
+      <h1 class="brand-title">HireHelper</h1>
+      <p class="brand-tagline">Create your account and start managing tasks easily.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="form-header">
+      <h2>Create Account</h2>
+      <p>Register to continue with HireHelper</p>
+    </div>
+
+    <form (ngSubmit)="registerUser()" class="auth-form">
+      <div class="input-group">
+        <label for="first_name">First Name</label>
+        <input
+          id="first_name"
+          type="text"
+          placeholder="Enter first name"
+          [(ngModel)]="first_name"
+          name="first_name"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="last_name">Last Name</label>
+        <input
+          id="last_name"
+          type="text"
+          placeholder="Enter last name"
+          [(ngModel)]="last_name"
+          name="last_name"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="number">Mobile Number</label>
+        <input
+          id="number"
+          type="text"
+          placeholder="Enter mobile number"
+          [(ngModel)]="number"
+          name="number"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Enter email"
+          [(ngModel)]="email"
+          name="email"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        >
+      </div>
+
+      <button type="submit" class="register-btn">
+        Register
+      </button>
+    </form>
+
+    <p class="error-text" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+    <div class="bottom-text">
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </div>
+
+  </div>
+</div>

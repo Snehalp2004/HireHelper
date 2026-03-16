@@ -1,0 +1,17 @@
+<h2>My Tasks</h2>
+
+<p *ngIf="message">{{message}}</p>
+
+<div *ngFor="let task of tasks" class="task-card">
+
+  <h3>{{task.title}}</h3>
+
+  <p><b>Description:</b> {{task.description}}</p>
+
+  <p><b>Location:</b> {{task.loc}}</p>
+
+  <p><b>Start Time:</b> {{task.start_time | date:'short'}}</p>
+
+  <p><b>Status:</b> {{task.status}}</p>
+
+</div>
