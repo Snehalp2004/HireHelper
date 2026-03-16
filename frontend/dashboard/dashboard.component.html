@@ -1,0 +1,89 @@
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <!-- Logo -->
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/128/11233/11233495.png" class="logo-img">
+      <span class="logo-text">Hire-Helper</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="menu">
+
+      <a routerLink="/dashboard/feed" routerLinkActive="active">
+        <i class="fas fa-home"></i>
+        <span>Feed</span>
+      </a>
+
+      <a routerLink="/dashboard/my-tasks" routerLinkActive="active">
+        <i class="fas fa-tasks"></i>
+        <span>My Tasks</span>
+      </a>
+
+      <a routerLink="/dashboard/requests" routerLinkActive="active">
+        <i class="fas fa-envelope"></i>
+        <span>Requests</span>
+      </a>
+
+      <a routerLink="/dashboard/my-requests" routerLinkActive="active">
+        <i class="fas fa-file-alt"></i>
+        <span>My Requests</span>
+      </a>
+
+      <a routerLink="/dashboard/add-task" routerLinkActive="active">
+        <i class="fas fa-plus-circle"></i>
+        <span>Add Task</span>
+      </a>
+
+      <a routerLink="/dashboard/settings" routerLinkActive="active">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+
+    </nav>
+
+    <!-- Profile -->
+<div class="profile-section">
+
+  <div class="profile">
+
+    <img [src]="profileImage" class="profile-img">
+
+    <div>
+      <p class="name">{{ user?.first_name }}</p>
+      <small>Online</small>
+    </div>
+
+  </div>
+
+  <button class="logout-btn" (click)="logout()">
+    Logout
+  </button>
+
+</div>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <div class="top-bar">
+
+  <div>
+    <h2>{{ pageTitle }}</h2>
+    <p class="subtitle">{{ pageSubtitle }}</p>
+  </div>
+
+  <input type="text" placeholder="Search tasks..." class="search-input">
+
+</div>
+
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+
+  </main>
+
+</div>
