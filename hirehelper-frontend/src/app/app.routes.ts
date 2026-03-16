@@ -6,6 +6,9 @@ import { VerifyOtp } from './pages/verify-otp/verify-otp';
 import { authGuard } from './guards/auth.guard';
 import { Overview } from './pages/dashboard/overview/overview';
 import { Profile } from './pages/dashboard/profile/profile';
+import { MyTasksComponent } from './pages/my-tasks/my-tasks.component';
+import { AddTaskComponent } from './pages/add-task/add-task.component';
+import { FeedComponent } from './pages/feed/feed.component';
 
 
 export const routes: Routes = [
@@ -19,6 +22,9 @@ export const routes: Routes = [
         children: [
             { path: 'overview', component: Overview },
             { path: 'profile', component: Profile },
+            { path: 'my-tasks', component: MyTasksComponent },
+            { path: 'add-task', component: AddTaskComponent },
+            { path: 'feed', component: FeedComponent },
 
             { path: '', redirectTo: 'overview', pathMatch: 'full' }
         ]

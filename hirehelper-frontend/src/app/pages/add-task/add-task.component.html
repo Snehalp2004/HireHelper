@@ -1,0 +1,150 @@
+<div class="animate-fade-in">
+  <div class="max-w-4xl mx-auto w-full">
+    <!-- Header -->
+    <div class="mb-8 flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-brand-primary">Create New Task</h1>
+        <p class="mt-2 text-brand-muted">Post a new task to find the right helper for your needs.</p>
+      </div>
+      <a routerLink="/dashboard/my-tasks"
+        class="text-sm font-medium text-accent hover:text-accent-hover flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to My Tasks
+      </a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-surface shadow-xl border border-border overflow-hidden rounded-xl">
+      <div class="h-1 bg-accent"></div>
+      <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="p-8 space-y-6">
+
+        <!-- Alerts -->
+        <div *ngIf="errorMessage" class="bg-red-50 border-l-4 border-red-400 p-4 animate-shake">
+          <div class="flex">
+            <div class="flex-shrink-0 text-red-400">
+              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-red-700">{{ errorMessage }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="successMessage" class="bg-green-50 border-l-4 border-accent p-4">
+          <div class="flex">
+            <div class="flex-shrink-0 text-accent">
+              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-green-700">{{ successMessage }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inputs Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Title -->
+          <div class="col-span-2">
+            <label class="block text-sm font-semibold text-brand-secondary">Task Title</label>
+            <input type="text" formControlName="title"
+              class="mt-1 block w-full border-border rounded-lg shadow-sm focus:ring-accent focus:border-accent sm:text-sm p-3 border transition-all"
+              placeholder="e.g. Garden Maintenance or Furniture Assembly"
+              [ngClass]="{'border-red-500': taskForm.get('title')?.touched && taskForm.get('title')?.invalid}">
+            <div *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid"
+              class="text-xs text-red-500 mt-1">
+              Title is required (min 5 characters).
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="col-span-2">
+            <label class="block text-sm font-semibold text-brand-secondary">Description</label>
+            <textarea formControlName="description" rows="4"
+              class="mt-1 block w-full border-border rounded-lg shadow-sm focus:ring-accent focus:border-accent sm:text-sm p-3 border transition-all"
+              placeholder="Provide details about what needs to be done..."
+              [ngClass]="{'border-red-500': taskForm.get('description')?.touched && taskForm.get('description')?.invalid}"></textarea>
+            <div *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.invalid"
+              class="text-xs text-red-500 mt-1">
+              Description is required.
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="col-span-2">
+            <label class="block text-sm font-semibold text-brand-secondary">Location</label>
+            <div class="relative mt-1">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-brand-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </span>
+              <input type="text" formControlName="location"
+                class="block w-full border-border rounded-lg shadow-sm focus:ring-accent focus:border-accent sm:text-sm p-3 pl-10 border transition-all"
+                placeholder="Enter city or specific address"
+                [ngClass]="{'border-red-500': taskForm.get('location')?.touched && taskForm.get('location')?.invalid}">
+            </div>
+            <div *ngIf="taskForm.get('location')?.touched && taskForm.get('location')?.invalid"
+              class="text-xs text-red-500 mt-1">
+              Location is required.
+            </div>
+          </div>
+
+          <!-- Start Time -->
+          <div>
+            <label class="block text-sm font-semibold text-brand-secondary">Start Time</label>
+            <input type="datetime-local" formControlName="start_time"
+              class="mt-1 block w-full border-border rounded-lg shadow-sm focus:ring-accent focus:border-accent sm:text-sm p-3 border transition-all"
+              [ngClass]="{'border-red-500': taskForm.get('start_time')?.touched && taskForm.get('start_time')?.invalid}">
+          </div>
+
+          <!-- End Time -->
+          <div>
+            <label class="block text-sm font-semibold text-brand-secondary">End Time (Optional)</label>
+            <input type="datetime-local" formControlName="end_time"
+              class="mt-1 block w-full border-border rounded-lg shadow-sm focus:ring-accent focus:border-accent sm:text-sm p-3 border transition-all">
+          </div>
+
+          <!-- Picture URL -->
+          <div class="col-span-2">
+            <label class="block text-sm font-semibold text-brand-secondary">Picture URL (Optional)</label>
+            <input type="text" formControlName="picture_url"
+              class="mt-1 block w-full border-border rounded-lg shadow-sm focus:ring-accent focus:border-accent sm:text-sm p-3 border transition-all"
+              placeholder="Link to an image illustrating the task">
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <button type="submit" [disabled]="loading"
+            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-brand-primary hover:bg-brand-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider">
+            <span *ngIf="!loading">Post Task</span>
+            <span *ngIf="loading" class="flex items-center gap-2">
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              Processing...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

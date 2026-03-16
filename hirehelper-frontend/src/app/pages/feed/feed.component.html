@@ -1,0 +1,116 @@
+<div class="space-y-6">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Task Feed</h2>
+            <p class="text-slate-500 text-sm mt-1">Browse and help others with their tasks.</p>
+        </div>
+        <button (click)="fetchFeedTasks()"
+            class="flex items-center space-x-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors shadow-sm">
+            <svg class="w-4 h-4" [class.animate-spin]="loading" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                </path>
+            </svg>
+            <span>Refresh</span>
+        </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex flex-col items-center justify-center py-20 animate-pulse">
+        <div class="w-12 h-12 border-4 border-accent/20 border-t-accent rounded-full animate-spin mb-4"></div>
+        <p class="text-slate-500 font-medium">Loading your feed...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage && !loading"
+        class="bg-red-50 border border-red-200 rounded-xl p-6 flex items-center space-x-4">
+        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-red-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </div>
+        <div>
+            <h3 class="font-bold text-red-900">Something went wrong</h3>
+            <p class="text-red-700 text-sm">{{ errorMessage }}</p>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && tasks.length === 0 && !errorMessage"
+        class="bg-white border-2 border-dashed border-slate-200 rounded-2xl py-20 flex flex-col items-center justify-center text-center px-4">
+        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+            <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                </path>
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 mb-2">No tasks available</h3>
+        <p class="text-slate-500 max-w-sm mb-8">It looks like there are no tasks from other users at the moment. Check
+            back later or create your own task!</p>
+        <a routerLink="/dashboard/add-task"
+            class="px-6 py-3 bg-brand-primary text-white rounded-lg font-bold hover:bg-brand-primary/90 transition-all shadow-lg hover:shadow-brand-primary/20">
+            Create Your First Task
+        </a>
+    </div>
+
+    <!-- Task Grid -->
+    <div *ngIf="!loading && tasks.length > 0"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+        <div *ngFor="let task of tasks"
+            class="group bg-white rounded-2xl border border-slate-200 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 overflow-hidden flex flex-col">
+            <!-- Task Header/Image -->
+            <div class="h-2 w-full bg-accent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+            <div class="p-6 flex-grow">
+                <div class="flex justify-between items-start mb-4">
+                    <span
+                        [class]="'px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ' + getStatusClass(task.status)">
+                        {{ task.status }}
+                    </span>
+                    <span class="text-slate-400 text-[10px] font-medium uppercase tracking-tight">
+                        {{ task.created_at | date:'MMM d' }}
+                    </span>
+                </div>
+
+                <h3
+                    class="text-lg font-bold text-slate-900 group-hover:text-brand-primary transition-colors mb-2 line-clamp-1">
+                    {{ task.title }}
+                </h3>
+                <p class="text-slate-600 text-sm line-clamp-3 mb-6 min-h-[4.5rem]">
+                    {{ task.description || 'No description provided.' }}
+                </p>
+
+                <div class="space-y-3 pt-4 border-t border-slate-50">
+                    <div class="flex items-center text-slate-500">
+                        <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="text-xs font-medium">{{ task.location }}</span>
+                    </div>
+                    <div class="flex items-center text-slate-500">
+                        <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-xs font-medium">{{ task.start_time | date:'MMM d, h:mm a' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Footer -->
+            <div class="p-4 bg-slate-50/50 border-t border-slate-100">
+                <button (click)="requestTask(task)"
+                    class="w-full py-3 bg-white hover:bg-accent hover:text-white border border-slate-200 hover:border-accent text-brand-primary font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-sm active:scale-[0.98]">
+                    Request to Help
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import taskRoutes from './routes/taskRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/tasks', taskRoutes);
 
 app.get('/health', (req, res) => {
     res.json({ status: 'OK' });
