@@ -1,0 +1,89 @@
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f3e9d7;   /* soft beige background */
+}
+
+.auth-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  width: 350px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.icon {
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+input:focus {
+  border-color: #4e73df;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #4e73df;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #2e59d9;
+}
+
+.success-msg {
+  color: #28a745;
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+.error-msg {
+  color: #dc3545;
+  margin-top: 15px;
+}
+.real-otp-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.otp-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+  cursor: text;
+}
+
+.otp-box {
+  width: 50px;
+  height: 55px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 22px;
+  text-align: center;
+  line-height: 55px;
+  font-weight: 600;
+}

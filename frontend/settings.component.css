@@ -1,0 +1,127 @@
+.settings-wrapper{
+    padding:30px 40px;
+    background:#f6f8fb;
+    min-height:100vh;
+}
+
+
+/* Header */
+
+.settings-header h2{
+    font-size:24px;
+    font-weight:600;
+    margin-bottom:4px;
+}
+
+.settings-header p{
+    color:#6b7280;
+    margin-bottom:25px;
+}
+
+
+/* Cards */
+
+.settings-card{
+    background:white;
+    border-radius:10px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+
+.settings-card h3{
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+
+/* Profile Section */
+
+.profile-section{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.profile-img{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #e5e7eb;
+}
+
+.profile-buttons{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+
+/* Buttons */
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.btn-remove{
+    background:#f3f4f6;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.btn-save{
+    margin-top:10px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+
+/* Form */
+
+.row{
+    display:flex;
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:18px;
+    width:100%;
+}
+
+.form-group label{
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+input, textarea{
+    padding:10px;
+    border:1px solid #d1d5db;
+    border-radius:6px;
+    font-size:14px;
+}
+
+input:focus, textarea:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+.file-size{
+    font-size:12px;
+    color:#9ca3af;
+}

@@ -1,0 +1,141 @@
+<div class="settings-wrapper">
+
+  <!-- PROFILE PICTURE -->
+
+  <div class="settings-card profile-card">
+
+    <h3>Profile Picture</h3>
+
+    <div class="profile-section">
+
+      <img
+        [src]="profile.profile_picture ? 'http://localhost:5000'+profile.profile_picture : 'assets/profile.png'"
+        class="profile-img"
+      />
+
+      <div class="profile-buttons">
+
+        <label class="btn-primary">
+          Change Photo
+          <input type="file" (change)="onFileChange($event)" hidden>
+        </label>
+
+        <button
+  type="button"
+  class="btn-remove"
+  (click)="removeProfilePicture()">
+  Remove
+</button>
+
+        <p class="file-size">
+          JPG, PNG up to 5 MB
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- PERSONAL INFORMATION -->
+
+  <div class="settings-card">
+
+    <h3>Personal Information</h3>
+
+    <form (ngSubmit)="saveProfile()">
+
+      <div class="row">
+
+        <div class="form-group">
+          <label>First Name</label>
+          <input
+            type="text"
+            [(ngModel)]="profile.first_name"
+            name="first_name"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Last Name</label>
+          <input
+            type="text"
+            [(ngModel)]="profile.last_name"
+            name="last_name"
+          >
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input
+          type="email"
+          [value]="profile.email_id"
+          disabled
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input
+          type="text"
+          [(ngModel)]="profile.phone_number"
+          name="phone_number"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Bio (Optional)</label>
+        <textarea
+          rows="3"
+          [(ngModel)]="profile.bio"
+          name="bio"
+        ></textarea>
+      </div>
+
+      <button class="btn-save">
+        Save Changes
+      </button>
+
+    </form>
+
+  </div>
+
+
+  <!-- CHANGE PASSWORD -->
+
+  <div class="settings-card">
+
+    <h3>Change Password</h3>
+
+    <form (ngSubmit)="changePassword()">
+
+      <div class="form-group">
+        <label>Current Password</label>
+        <input
+          type="password"
+          [(ngModel)]="passwordData.currentPassword"
+          name="currentPassword"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>New Password</label>
+        <input
+          type="password"
+          [(ngModel)]="passwordData.newPassword"
+          name="newPassword"
+        >
+      </div>
+
+      <button class="btn-save">
+        Update Password
+      </button>
+
+    </form>
+
+  </div>
+
+</div>

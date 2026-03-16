@@ -1,0 +1,31 @@
+<div class="auth-container">
+  <div class="auth-card">
+
+    <div class="icon">
+      <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" width="45">
+    </div>
+
+    <h2>Verify Your Email</h2>
+
+    <p class="subtitle">
+      Enter the 6-digit code sent to <br>
+      <strong>{{ email_id }}</strong>
+    </p>
+
+    <!-- Simple OTP Textbox -->
+    <input
+      type="text"
+      placeholder="Enter 6-digit OTP"
+      maxlength="6"
+      [(ngModel)]="otp"
+      class="otp-input"
+    />
+
+    <button (click)="verify()">Verify Code</button>
+
+    <p *ngIf="message"
+       [ngClass]="isSuccess ? 'success-msg' : 'error-msg'">
+      {{ message }}
+    </p>
+  </div>
+</div>
