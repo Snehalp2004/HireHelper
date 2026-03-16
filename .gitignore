@@ -1,0 +1,9 @@
+node_modules
+.env
+*.log
+dist
+.angular
+.vscode
+.DS_Store
+Backend/uploads/*
+!Backend/uploads/.gitkeep

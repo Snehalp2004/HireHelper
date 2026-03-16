@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: hirehelper-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18.x
+      - key: DB_HOST
+        value: process.env.DB_HOST
+      - key: DB_NAME
+        value: process.env.DB_NAME
+      - key: DB_USER
+        value: process.env.DB_USER
+      - key: DB_PASSWORD
+        value: process.env.DB_PASSWORD
+      - key: DB_PORT
+        value: "5432"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: EMAIL_USER
+        value: "example@gmail.com" # Required to be filled by user
+      - key: EMAIL_APP_PASSWORD
+        value: "password" # Required to be filled by user

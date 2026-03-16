@@ -1,0 +1,129 @@
+<div class="applied-container">
+  <div class="page-header">
+    <h2>{{ labels.appliedTitle || 'My Applied Tasks' }}</h2>
+    <p>{{ labels.appliedSubtitle || 'Tasks you have volunteered to help with' }}</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>{{ labels.loadingTasks || 'Loading...' }}</p>
+  </div>
+
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <div *ngIf="!isLoading && appliedTasks.length === 0 && !errorMsg" class="empty-state">
+    <h3>{{ labels.noApplied || 'No applied tasks yet' }}</h3>
+    <p>{{ labels.noAppliedDesc || 'When you offer to help with someone\'s task, it will appear here.' }}</p>
+  </div>
+
+  <div class="applied-list" *ngIf="!isLoading && appliedTasks.length > 0">
+    <div class="applied-card" *ngFor="let item of appliedTasks">
+      <div class="applied-card-header">
+        <div class="owner-info">
+          <div class="owner-avatar" *ngIf="!item.owner_picture">
+            {{ item.owner_first_name ? item.owner_first_name.charAt(0).toUpperCase() : '?' }}
+          </div>
+          <img *ngIf="item.owner_picture" [src]="apiUrl + item.owner_picture" alt="Avatar" class="owner-avatar-img" />
+          <div class="owner-details">
+            <span class="owner-name">{{ item.owner_first_name }} {{ item.owner_last_name }}</span>
+            <span class="posted-time">{{ labels.taskPosted || 'Task posted' }} {{ item.task_created_at | date:'medium' }}</span>
+          </div>
+        </div>
+        <span class="status-badge"
+          [ngClass]="{
+            'status-pending': item.request_status === 'pending',
+            'status-accepted': item.request_status === 'accepted',
+            'status-rejected': item.request_status === 'rejected'
+          }">
+          {{ item.request_status | uppercase }}
+        </span>
+      </div>
+
+      <div class="applied-card-body">
+        <h4 class="task-title">{{ item.title }}</h4>
+        <p class="task-desc" *ngIf="item.description">{{ item.description }}</p>
+        <div class="task-meta" *ngIf="item.location">
+          <span>{{ item.location }}</span>
+        </div>
+        <div class="task-meta" *ngIf="item.pay">
+          <span>Pay Offered: {{ item.pay }}</span>
+        </div>
+        <p class="applied-at">{{ labels.youApplied || 'You applied' }} {{ item.requested_at | date:'medium' }}</p>
+      </div>
+
+      <!-- Preview of Last Message -->
+      <div class="applied-card-body conversation-preview" *ngIf="!item.isExpanded" (click)="item.isExpanded = true">
+        <h4 class="conversation-preview-title">
+          {{ item.conversation?.length > 0 ? ('Last message from ' + item.conversation[item.conversation.length-1].sender + ':') : 'Your Proposal Message:' }}
+        </h4>
+        <p class="conversation-preview-text">
+          "{{ item.conversation?.length > 0 ? item.conversation[item.conversation.length-1].text : item.message }}"
+        </p>
+        <div class="conversation-preview-hint">Click to view full conversation</div>
+      </div>
+
+      <!-- Full Conversation (Expanded) -->
+      <div class="applied-card-body conversation-expanded" *ngIf="item.isExpanded">
+        <div class="conversation-header">
+          <h4>Conversation History</h4>
+          <span (click)="item.isExpanded = false" class="conversation-close">Close &times;</span>
+        </div>
+        
+        <!-- Original message -->
+        <div style="margin-bottom: 1rem;">
+          <div class="conversation-msg-meta">You ({{ item.requested_at | date:'short' }})</div>
+          <div class="conversation-msg-bubble-original">
+            {{ item.message }}
+          </div>
+        </div>
+
+        <!-- Replies array -->
+        <div *ngFor="let msg of item.conversation" style="margin-bottom: 1rem;">
+          <div class="conversation-msg-meta">
+            {{ msg.sender }} <span *ngIf="msg.timestamp">({{ msg.timestamp | date:'short' }})</span>
+          </div>
+          <div class="conversation-msg-bubble-reply">
+            {{ msg.text }}
+          </div>
+        </div>
+      </div>
+
+      <div class="applied-card-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="status-message" *ngIf="item.request_status === 'pending'" style="margin: 0;">
+            <span class="status-dot pending"></span>
+            {{ labels.waitingResponse || 'Waiting for the task owner to respond...' }}
+          </div>
+          <div class="status-message" *ngIf="item.request_status === 'accepted'" style="margin: 0;">
+            <span class="status-dot accepted"></span>
+            {{ labels.requestAccepted || 'Your request was accepted!' }}
+          </div>
+          <div class="status-message" *ngIf="item.request_status === 'rejected'" style="margin: 0;">
+            <span class="status-dot rejected"></span>
+            {{ labels.requestDeclined || 'Your request was declined.' }}
+          </div>
+        </div>
+
+        <button class="btn btn-outline btn-sm" *ngIf="item.request_status !== 'rejected'" (click)="openReplyModal(item.request_id)">
+          {{ labels.reply || 'Reply' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reply Modal -->
+  <div class="modal-overlay" *ngIf="replyingRequestId">
+    <div class="modal-content">
+      <h3>{{ labels.replyToOwner || 'Reply to Task Owner' }}</h3>
+      <p style="margin-bottom: 1rem; color: #6b7280; font-size: 0.95rem;">
+        Write a message to respond to the task owner. They will receive an email notification.
+      </p>
+      <textarea [(ngModel)]="replyMessage" class="form-control" rows="4" placeholder="Your reply..."></textarea>
+      
+      <div class="modal-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+        <button class="btn btn-outline" style="margin: 0;" (click)="cancelReply()">{{ labels.cancel || 'Cancel' }}</button>
+        <button class="btn btn-primary" (click)="sendReply()" [disabled]="!replyMessage.trim()">{{ labels.send || 'Send Reply' }}</button>
+      </div>
+    </div>
+  </div>
+</div>

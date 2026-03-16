@@ -1,0 +1,46 @@
+<div class="arc-layout">
+  <aside class="sidebar">
+    <div class="brand">HireHelper</div>
+    <nav>
+      <a routerLink="/dashboard/feed">Feed</a>
+      <a routerLink="/dashboard/my-tasks">My Tasks</a>
+      <a routerLink="/dashboard/requests">Requests</a>
+      <a routerLink="/dashboard/settings">Settings</a>
+    </nav>
+    <div class="sidebar-foot">v1 — Arc</div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div>Welcome back, <strong>{{ userName }}</strong></div>
+      <div class="profile">{{ userName.charAt(0) }}</div>
+    </header>
+
+    <section class="content">
+      <div class="panel">
+        <h3>Quick Tasks</h3>
+        <div class="add-row">
+          <input [(ngModel)]="newTask" placeholder="New task title" />
+          <button (click)="addTask()">Add</button>
+        </div>
+
+        <ul class="task-list">
+          <li *ngFor="let t of tasks">
+            <label>
+              <input type="checkbox" [checked]="t.done" (change)="toggle(t)" />
+              <span [class.done]="t.done">{{ t.title }}</span>
+            </label>
+            <button class="del" (click)="remove(t)">✕</button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="panel welcome">
+        <h2>Arc Dashboard</h2>
+        <p>An aesthetic, single-file dashboard with interactive tasks and navigation.</p>
+      </div>
+    </section>
+
+    <footer class="foot">© HireHelper</footer>
+  </main>
+</div>

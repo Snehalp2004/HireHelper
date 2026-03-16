@@ -1,0 +1,59 @@
+<div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>HireHelper</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a routerLink="/dashboard/feed" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{ labels.taskFeed || 'Task Feed' }}</a></li>
+                <li><a routerLink="/dashboard/my-tasks" routerLinkActive="active">{{ labels.myTasks || 'My Tasks' }}</a></li>
+                <li><a routerLink="/dashboard/requests" routerLinkActive="active">{{ labels.helpOffers || 'Help Offers' }}</a></li>
+                <li><a routerLink="/dashboard/my-requests" routerLinkActive="active">{{ labels.myAppliedTasks || 'My Applied Tasks' }}</a></li>
+                <li style="margin-top: 15px;"><a routerLink="/dashboard/add-task" routerLinkActive="active" class="add-task-btn">{{ labels.postTask || '+ Post a Task' }}</a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <ul>
+                <li><a routerLink="/dashboard/profile" routerLinkActive="active">{{ labels.myProfile || 'My Profile' }}</a></li>
+                <li><a routerLink="/dashboard/settings" routerLinkActive="active">{{ labels.settings || 'Settings' }}</a></li>
+                <li><a href="javascript:void(0)" (click)="logout()" class="logout-btn">{{ labels.logout || 'Logout' }}</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="top-nav">
+            <div class="welcome-text">
+                {{ labels.welcomeBack || 'Welcome back,' }} <strong>{{ userName }}</strong>
+            </div>
+            <div class="actions-container" style="display: flex; align-items: center; gap: 15px;">
+                <button class="theme-toggle-btn" (click)="toggleTheme()" aria-label="Toggle dark mode" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-color);">
+                    <span *ngIf="isDarkMode">☀️</span>
+                    <span *ngIf="!isDarkMode">🌙</span>
+                </button>
+                <div class="user-profile">
+                    <div class="avatar" (click)="toggleProfileMenu()">
+                        <img *ngIf="profilePic" [src]="apiUrl + profilePic" alt="Avatar" class="avatar-img-small" />
+                        <span *ngIf="!profilePic">{{ userName.charAt(0).toUpperCase() }}</span>
+                    </div>
+                    <div class="profile-dropdown" *ngIf="isProfileMenuOpen">
+                        <ul>
+                            <li><a routerLink="/dashboard/profile" (click)="toggleProfileMenu()">{{ labels.myProfile || 'My Profile' }}</a></li>
+                            <li><a routerLink="/dashboard/settings" (click)="toggleProfileMenu()">{{ labels.settings || 'Settings' }}</a></li>
+                            <hr style="margin: 5px 0; border: none; border-top: 1px solid var(--border-color, #eaeaea);">
+                            <li><a href="javascript:void(0)" (click)="logout()" style="color: var(--danger);">{{ labels.logout || 'Logout' }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+</div>

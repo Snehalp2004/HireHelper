@@ -1,0 +1,119 @@
+<div class="requests-container">
+  <div class="page-header">
+    <h2>{{ labels.helpOffersTitle || 'Help Offers' }}</h2>
+    <p>{{ labels.helpOffersSubtitle || 'People who want to help with your tasks' }}</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>{{ labels.loadingTasks || 'Loading...' }}</p>
+  </div>
+
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <div *ngIf="!isLoading && requests.length === 0 && !errorMsg" class="empty-state">
+    <h3>{{ labels.noHelpOffers || 'No help offers' }}</h3>
+    <p>{{ labels.noHelpOffersDesc || 'When someone offers to help with your tasks, they will appear here.' }}</p>
+  </div>
+
+  <div class="request-list" *ngIf="!isLoading && requests.length > 0">
+    <div class="request-card" *ngFor="let req of requests">
+      <div class="request-card-header">
+        <div class="requester-info">
+          <div class="requester-avatar" *ngIf="!req.requester_picture">
+            {{ req.first_name ? req.first_name.charAt(0).toUpperCase() : '?' }}
+          </div>
+          <img *ngIf="req.requester_picture" [src]="apiUrl + req.requester_picture" alt="Avatar" class="requester-avatar-img" />
+          <div class="requester-details">
+            <span class="requester-name">{{ req.first_name }} {{ req.last_name }}</span>
+            <span class="requester-email">{{ req.email_id }}</span>
+          </div>
+        </div>
+        <span class="status-badge"
+          [ngClass]="{
+            'status-pending': req.request_status === 'pending',
+            'status-accepted': req.request_status === 'accepted',
+            'status-rejected': req.request_status === 'rejected'
+          }">
+          {{ req.request_status | uppercase }}
+        </span>
+      </div>
+
+      <div class="request-card-body">
+        <h4 class="task-title">{{ labels.forTask || 'For task:' }} {{ req.title }}</h4>
+        <p class="task-desc" *ngIf="req.description">{{ req.description }}</p>
+        <div class="task-meta" *ngIf="req.location">
+          <span>{{ req.location }}</span>
+        </div>
+        <div class="task-meta" *ngIf="req.pay">
+          <span>Pay Offered: {{ req.pay }}</span>
+        </div>
+        <p class="requested-at">{{ labels.requested || 'Requested' }} {{ req.requested_at | date:'medium' }}</p>
+      </div>
+
+      <!-- Preview of Last Message -->
+      <div class="request-card-body conversation-preview" *ngIf="!req.isExpanded" (click)="req.isExpanded = true">
+        <h4 class="conversation-preview-title">
+          {{ req.conversation?.length > 0 ? ('Last message from ' + req.conversation[req.conversation.length-1].sender + ':') : ('Message from ' + req.first_name + ':') }}
+        </h4>
+        <p class="conversation-preview-text">
+          "{{ req.conversation?.length > 0 ? req.conversation[req.conversation.length-1].text : req.message }}"
+        </p>
+        <div class="conversation-preview-hint">Click to view full conversation</div>
+      </div>
+
+      <!-- Full Conversation (Expanded) -->
+      <div class="request-card-body conversation-expanded" *ngIf="req.isExpanded">
+        <div class="conversation-header">
+          <h4>Conversation History</h4>
+          <span (click)="req.isExpanded = false" class="conversation-close">Close &times;</span>
+        </div>
+        
+        <!-- Original message -->
+        <div style="margin-bottom: 1rem;">
+          <div class="conversation-msg-meta">{{ req.first_name }} ({{ req.requested_at | date:'short' }})</div>
+          <div class="conversation-msg-bubble-original">
+            {{ req.message }}
+          </div>
+        </div>
+
+        <!-- Replies array -->
+        <div *ngFor="let msg of req.conversation" style="margin-bottom: 1rem;">
+          <div class="conversation-msg-meta">
+            {{ msg.sender }} <span *ngIf="msg.timestamp">({{ msg.timestamp | date:'short' }})</span>
+          </div>
+          <div class="conversation-msg-bubble-reply">
+            {{ msg.text }}
+          </div>
+        </div>
+      </div>
+
+      <div class="request-card-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <div *ngIf="req.request_status === 'pending'" style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-accept" (click)="acceptRequest(req.request_id)">{{ labels.accept || 'Accept Offer' }}</button>
+          <button class="btn btn-reject" (click)="rejectRequest(req.request_id)">{{ labels.reject || 'Reject' }}</button>
+        </div>
+        <div *ngIf="req.request_status !== 'pending'" style="color: #6b7280; font-size: 0.9rem;">
+          Request is {{ req.request_status | uppercase }}
+        </div>
+        <button class="btn btn-outline" (click)="openReplyModal(req.request_id)">{{ labels.reply || 'Reply' }}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reply Modal -->
+  <div class="modal-overlay" *ngIf="replyingRequestId">
+    <div class="modal-content">
+      <h3>{{ labels.replyToUser || 'Reply to Help Offer' }}</h3>
+      <p style="margin-bottom: 1rem; color: #6b7280; font-size: 0.95rem;">
+        {{ labels.replyHelpDesc || 'Write a message to reply to this offer. This will be sent to the user via email.' }}
+      </p>
+      <textarea [(ngModel)]="replyMessage" class="form-control" rows="4" placeholder="Your reply..."></textarea>
+      
+      <div class="modal-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+        <button class="btn btn-outline" style="margin: 0;" (click)="cancelReply()">{{ labels.cancel || 'Cancel' }}</button>
+        <button class="btn btn-primary" (click)="sendReply()" [disabled]="!replyMessage.trim()">{{ labels.send || 'Send Reply' }}</button>
+      </div>
+    </div>
+  </div>
+</div>

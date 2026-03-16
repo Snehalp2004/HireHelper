@@ -1,0 +1,87 @@
+<div class="feed-container">
+  <div class="feed-header">
+    <h2>{{ labels.feedTitle || 'Task Feed' }}</h2>
+    <p>{{ labels.feedSubtitle || 'Discover tasks created by others and offer your help!' }}</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>{{ labels.loadingTasks || 'Loading tasks...' }}</p>
+  </div>
+
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <div *ngIf="!isLoading && tasks.length === 0 && !errorMsg" class="empty-state">
+    <h3>{{ labels.noTasksAvailable || 'No tasks available' }}</h3>
+    <p>{{ labels.noTasksDesc || 'There are currently no open tasks from other users.' }}</p>
+  </div>
+
+  <div class="feed-grid" *ngIf="!isLoading && tasks.length > 0">
+    <div class="feed-card" *ngFor="let task of tasks">
+      <div class="feed-card-header">
+        <div class="user-info">
+          <div class="user-avatar" *ngIf="!task.user_picture">
+            {{ task.first_name ? task.first_name.charAt(0).toUpperCase() : 'U' }}
+          </div>
+          <img *ngIf="task.user_picture" [src]="apiUrl + task.user_picture" alt="Avatar" class="user-avatar-img" />
+          <div class="user-details">
+            <span class="user-name">{{ task.first_name }} {{ task.last_name }}</span>
+            <span class="posted-time">{{ labels.posted || 'Posted' }} {{ task.created_at | date:'short' }}</span>
+          </div>
+        </div>
+        <span class="status-badge" [ngClass]="'status-' + (task.status?.toLowerCase() || 'open')">
+          {{ task.status || 'OPEN' | uppercase }}
+        </span>
+      </div>
+
+      <div class="feed-card-body">
+        <h3 class="task-title">{{ task.title }}</h3>
+        <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+        
+        <div class="task-meta-grid">
+          <div class="meta-item" *ngIf="task.location">
+            <span>{{ task.location }}</span>
+          </div>
+          <div class="meta-item" *ngIf="task.start_time">
+            <span>{{ task.start_time | date:'medium' }}</span>
+          </div>
+          <div class="meta-item" *ngIf="task.pay">
+            <span>Pay Offered: {{ task.pay }}</span>
+          </div>
+        </div>
+
+        <div class="task-image-container" *ngIf="task.picture">
+            <img [src]="task.picture" alt="Task Image" class="task-image" />
+        </div>
+      </div>
+
+      <div class="feed-card-footer">
+        <button class="btn btn-request" *ngIf="!task.applied && (!task.status || task.status.toLowerCase() === 'open')" (click)="onRequestTask(task)">
+          {{ labels.requestToHelp || 'Request to Help' }}
+        </button>
+        <button class="btn btn-outline" *ngIf="task.applied" disabled style="color: #10b981; border-color: #10b981;">
+          {{ labels.alreadyApplied || 'Already Applied' }}
+        </button>
+        <button class="btn btn-outline" *ngIf="!task.applied && (task.status && task.status.toLowerCase() !== 'open')" disabled>
+          {{ task.status | uppercase }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Request Modal -->
+  <div class="modal-overlay" *ngIf="selectedTaskForRequest">
+    <div class="modal-content">
+      <h3>{{ labels.requestToHelp || 'Request to Help' }}: {{ selectedTaskForRequest.title }}</h3>
+      <p style="margin-bottom: 1rem; color: #6b7280; font-size: 0.95rem;">
+        {{ labels.proposeMessage || 'Write a short message or propose your pay rate (e.g. I will work for 50 rs/hr):' }}
+      </p>
+      <textarea [(ngModel)]="requestMessage" class="form-control" rows="4" placeholder="Your message..."></textarea>
+      
+      <div class="modal-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+        <button class="btn btn-outline" style="margin: 0;" (click)="cancelRequest()">{{ labels.cancel || 'Cancel' }}</button>
+        <button class="btn btn-primary" (click)="confirmRequest()">{{ labels.sendRequest || 'Send Request' }}</button>
+      </div>
+    </div>
+  </div>
+</div>

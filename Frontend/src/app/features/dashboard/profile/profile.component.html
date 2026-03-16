@@ -1,0 +1,123 @@
+<div class="settings-container">
+    <div class="card settings-card">
+        <div class="settings-header">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <h2>{{ labels.profileTitle || 'My Profile' }}</h2>
+                    <p>{{ labels.profileSubtitle || 'Manage your profile details and professional preferences.' }}</p>
+                </div>
+                <button class="btn" [ngClass]="isEditing ? 'btn-cancel' : 'btn-primary'" (click)="toggleEdit()">
+                    {{ isEditing ? (labels.cancelEdit || 'Cancel Edit') : (labels.editProfile || 'Edit Profile') }}
+                </button>
+            </div>
+        </div>
+
+        <form (ngSubmit)="saveProfile()" #profileForm="ngForm">
+            <div class="profile-details">
+                <div class="avatar-container">
+                    <div class="avatar-large" *ngIf="!user.profile_picture">
+                        {{ user.first_name ? user.first_name.charAt(0).toUpperCase() : 'U' }}
+                    </div>
+                    <img *ngIf="user.profile_picture" [src]="apiUrl + user.profile_picture" alt="Avatar" class="avatar-img" />
+                    <div *ngIf="isEditing" style="margin-top: 5px;">
+                        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="info-group">
+                        <label>{{ labels.firstName || 'First Name' }}</label>
+                        <div class="info-value" *ngIf="!isEditing">{{ user.first_name }}</div>
+                        <input *ngIf="isEditing" type="text" [(ngModel)]="user.first_name" name="first_name" class="form-control" required>
+                    </div>
+
+                    <div class="info-group">
+                        <label>{{ labels.lastName || 'Last Name' }}</label>
+                        <div class="info-value" *ngIf="!isEditing">{{ user.last_name }}</div>
+                        <input *ngIf="isEditing" type="text" [(ngModel)]="user.last_name" name="last_name" class="form-control" required>
+                    </div>
+
+                    <div class="info-group form-grid-full">
+                        <label>{{ labels.emailAddress || 'Email Address' }} <span style="font-size: 0.8em; color: gray;">(Cannot be changed)</span></label>
+                        <div class="info-value" *ngIf="!isEditing">{{ user.email_id }}</div>
+                        <input *ngIf="isEditing" type="email" [value]="user.email_id" name="email_id" class="form-control" disabled style="background-color: #eee; cursor: not-allowed;">
+                    </div>
+
+                    <div class="info-group form-grid-full">
+                        <label>{{ labels.phoneNumber || 'Phone Number' }}</label>
+                        <div class="info-value" *ngIf="!isEditing">{{ user.phone_number || 'Not provided' }}</div>
+                        <input *ngIf="isEditing" type="text" [(ngModel)]="user.phone_number" name="phone_number" class="form-control">
+                    </div>
+
+                    <!-- Password Change Section -->
+                    <div class="info-group form-grid-full" *ngIf="isEditing" style="margin-top: 15px; border-top: 1px solid var(--border-color, #eaeaea); padding-top: 25px;">
+                        <label>{{ labels.changePassword || 'Change Password' }}</label>
+                        <p style="font-size: 13px; color: #718096; margin-top: -5px; margin-bottom: 15px;">{{ labels.passwordHint || 'Leave blank if you don\'t want to change.' }}</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div>
+                                <label style="font-size: 0.85rem; color: var(--text-light, #6b7280);">{{ labels.newPassword || 'New Password' }}</label>
+                                <input type="password" [(ngModel)]="passwordInput" name="passwordInput" class="form-control" placeholder="Enter new password">
+                            </div>
+                            <div>
+                                <label style="font-size: 0.85rem; color: var(--text-light, #6b7280);">{{ labels.confirmPassword || 'Confirm Password' }}</label>
+                                <input type="password" [(ngModel)]="confirmPasswordInput" name="confirmPasswordInput" class="form-control" placeholder="Confirm new password">
+                            </div>
+                            <div *ngIf="passwordMismatch" class="password-error">
+                                {{ labels.passwordMismatch || 'Passwords do not match.' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Details -->
+            <div class="professional-details" style="margin-top: 30px; border-top: 1px solid var(--border-color, #eaeaea); padding-top: 25px;">
+                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--primary-color);">{{ labels.professionalDetails || 'Professional Details' }}</h3>
+                
+                <div class="form-grid">
+                    <div class="info-group form-grid-full">
+                        <label>{{ labels.skills || 'Skills / Services Offered' }}</label>
+                        <div class="info-value" *ngIf="!isEditing">{{ professionalDetails.skills || 'Not specified' }}</div>
+                        <input *ngIf="isEditing" type="text" [(ngModel)]="professionalDetails.skills" name="skills" class="form-control" placeholder="e.g. Web Development, Graphic Design">
+                    </div>
+
+                    <div class="info-group">
+                        <label>{{ labels.hourlyRate || 'Hourly Rate' }} ($)</label>
+                        <div class="info-value" *ngIf="!isEditing">{{ professionalDetails.hourlyRate ? '$' + professionalDetails.hourlyRate + '/hr' : 'Not specified' }}</div>
+                        <input *ngIf="isEditing" type="number" [(ngModel)]="professionalDetails.hourlyRate" name="hourlyRate" class="form-control">
+                    </div>
+
+                    <div class="info-group">
+                        <label>{{ labels.availability || 'Availability Status' }}</label>
+                        <div class="info-value" *ngIf="!isEditing">
+                            <span [ngStyle]="{'color': professionalDetails.availability === 'Available for work' ? '#4CAF50' : '#777'}">
+                                {{ professionalDetails.availability || 'Not specified' }}
+                            </span>
+                        </div>
+                        <select *ngIf="isEditing" [(ngModel)]="professionalDetails.availability" name="availability" class="form-control">
+                            <option value="Available for work">{{ labels.availableForWork || 'Available for work' }}</option>
+                            <option value="Not looking but open">{{ labels.notLookingButOpen || 'Not looking but open' }}</option>
+                            <option value="Not available">{{ labels.notAvailable || 'Not available' }}</option>
+                        </select>
+                    </div>
+
+                    <div class="info-group form-grid-full">
+                        <label>{{ labels.portfolio || 'Portfolio / Website URL' }}</label>
+                        <div class="info-value" *ngIf="!isEditing">
+                            <a *ngIf="professionalDetails.portfolioUrl" [href]="professionalDetails.portfolioUrl" target="_blank">{{ professionalDetails.portfolioUrl }}</a>
+                            <span *ngIf="!professionalDetails.portfolioUrl">Not specified</span>
+                        </div>
+                        <input *ngIf="isEditing" type="url" [(ngModel)]="professionalDetails.portfolioUrl" name="portfolioUrl" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions" style="margin-top: 30px; text-align: right;" *ngIf="isEditing">
+                <button type="submit" class="btn btn-success" [disabled]="!profileForm.valid || passwordMismatch" style="width: 100%;">
+                    {{ labels.saveProfileChanges || 'Save Profile Changes' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

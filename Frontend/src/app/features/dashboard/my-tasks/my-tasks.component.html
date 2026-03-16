@@ -1,0 +1,109 @@
+<div class="my-tasks-container">
+  <div class="header-section">
+    <h2>{{ labels.myTasksTitle || 'My Tasks' }}</h2>
+    <a routerLink="/dashboard/add-task" class="btn btn-primary">{{ labels.postTask || '+ Post a Task' }}</a>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>{{ labels.loadingTasks || 'Loading tasks...' }}</p>
+  </div>
+
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <div *ngIf="!isLoading && tasks.length === 0 && !errorMsg" class="empty-state">
+    <h3>{{ labels.noMyTasks || 'No tasks yet' }}</h3>
+    <p>{{ labels.noMyTasksDesc || 'You haven\'t posted any tasks yet.' }}</p>
+    <a routerLink="/dashboard/add-task" class="btn btn-outline">{{ labels.postTask || '+ Post a Task' }}</a>
+  </div>
+
+  <div class="task-grid" *ngIf="!isLoading && tasks.length > 0">
+    <div class="task-card" *ngFor="let task of tasks">
+      <!-- View Mode -->
+      <ng-container *ngIf="editingTaskId !== task.id">
+        <div class="task-header">
+          <h3 class="task-title">{{ task.title }}</h3>
+          <span class="status-badge" [ngClass]="'status-' + (task.status?.toLowerCase() || 'open')">
+            {{ task.status || 'OPEN' | uppercase }}
+          </span>
+        </div>
+        
+        <div class="task-body">
+          <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+          <div class="task-meta-grid">
+            <div class="meta-item" *ngIf="task.location">
+              <span>{{ task.location }}</span>
+            </div>
+            <div class="meta-item" *ngIf="task.start_time">
+              <span>{{ task.start_time | date:'medium' }}</span>
+            </div>
+            <div class="meta-item" *ngIf="task.pay">
+              <span>Pay: {{ task.pay }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-actions">
+          <button class="btn btn-sm btn-edit" (click)="startEdit(task)">{{ labels.edit || 'Edit' }}</button>
+          <button class="btn btn-sm btn-delete" (click)="deleteTask(task)">{{ labels.delete || 'Delete' }}</button>
+          <button class="btn btn-sm" [ngClass]="task.status === 'open' ? 'btn-status-close' : 'btn-status-open'" (click)="toggleStatus(task)">
+            {{ task.status === 'open' ? 'Close Task' : 'Reopen Task' }}
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Edit Mode -->
+      <ng-container *ngIf="editingTaskId === task.id">
+        <div class="task-edit-form">
+          <div class="edit-group">
+            <label>{{ labels.taskTitle || 'Title' }}</label>
+            <input type="text" [(ngModel)]="editData.title" class="form-control" />
+          </div>
+          <div class="edit-group">
+            <label>{{ labels.description || 'Description' }}</label>
+            <textarea [(ngModel)]="editData.description" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="edit-group">
+            <label>{{ labels.location || 'Location' }}</label>
+            <input type="text" [(ngModel)]="editData.location" class="form-control" />
+          </div>
+          <div class="edit-group" style="display: flex; gap: 1rem;">
+            <div style="flex: 1;">
+              <label>{{ labels.startTime || 'Start Time' }}</label>
+              <input type="datetime-local" [(ngModel)]="editData.start_time" class="form-control" [min]="minDateTime" />
+            </div>
+            <div style="flex: 1;">
+              <label>{{ labels.endTime || 'End Time' }}</label>
+              <input type="datetime-local" [(ngModel)]="editData.end_time" class="form-control" [min]="minDateTime" />
+            </div>
+          </div>
+          <div class="edit-group">
+            <label>{{ labels.pay || 'Pay Offered' }}</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="number" [(ngModel)]="editData.pay_amount" class="form-control" placeholder="Amount" style="flex: 2;">
+              <select [(ngModel)]="editData.pay_currency" class="form-control" style="flex: 1;">
+                <option value="rs">₹ (Rs)</option>
+                <option value="$">$ (USD)</option>
+                <option value="€">€ (EUR)</option>
+                <option value="£">£ (GBP)</option>
+              </select>
+              <select [(ngModel)]="editData.pay_type" class="form-control" style="flex: 1.5;">
+                <option value="total">Total</option>
+                <option value="/ hr">per Hour</option>
+                <option value="/ day">per Day</option>
+                <option value="/ month">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="6 months">6 Months</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button class="btn btn-sm btn-save" (click)="saveEdit()">{{ labels.save || 'Save' }}</button>
+            <button class="btn btn-sm btn-cancel" (click)="cancelEdit()">{{ labels.cancel || 'Cancel' }}</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

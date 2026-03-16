@@ -1,0 +1,156 @@
+<div class="auth-layout">
+  <!-- Aesthetic Branding Side Panel -->
+  <div class="auth-branding">
+    <div class="branding-content">
+      <div class="logo-area">
+        <h1 class="brand-title">HireHelper</h1>
+      </div>
+      <div class="motto-area">
+        <h2 class="tagline">Post a task. Find help. Get things done.</h2>
+        <p class="motto">HireHelper is a task-sharing platform that connects people who need help with everyday tasks to nearby users willing to complete them.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Side Panel -->
+  <div class="auth-container">
+    <div class="auth-wrapper card">
+      <div class="auth-header">
+        <h2>Welcome Back</h2>
+        <p>Login to your account to get things done</p>
+      </div>
+
+      <div class="alert alert-success" *ngIf="successMsg">
+        {{ successMsg }}
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorMsg && !showOtpForm">
+        {{ errorMsg }}
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorMsg && showOtpForm">
+        {{ errorMsg }}
+      </div>
+
+      <!-- Login Form (Hidden when showing OTP) -->
+      <form *ngIf="!showOtpForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" formControlName="email_id" placeholder="Enter your email"
+            [ngClass]="{'is-invalid': loginForm.get('email_id')?.invalid && loginForm.get('email_id')?.touched}">
+          <div class="error-text" *ngIf="loginForm.get('email_id')?.invalid && loginForm.get('email_id')?.touched">
+            Please enter a valid email address.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" formControlName="password"
+            placeholder="Enter your password"
+            [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
+          <div class="error-text" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password is required.
+          </div>
+        </div>
+
+        <div style="text-align: right; margin-bottom: 15px;">
+          <a href="javascript:void(0)" (click)="showForgotPassword = true" class="auth-link" style="font-size: 0.9rem;">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Login</span>
+          <span *ngIf="isLoading"><span class="spinner"></span> Logging in...</span>
+        </button>
+
+        <div class="text-center mt-3">
+          <p>Don't have an account? <a routerLink="/register" class="auth-link">Sign up</a></p>
+        </div>
+      </form>
+
+      <!-- Forgot Password - Step 1: Send OTP -->
+      <div *ngIf="showForgotPassword && !showResetForm && !showOtpForm" class="forgot-password-form">
+        <h3 style="margin-bottom: 8px; color: var(--text-color, #333);">Reset Password</h3>
+        <p style="color: var(--text-light, #777); font-size: 0.9rem; margin-bottom: 20px;">Enter your email address and we'll send you an OTP to reset your password.</p>
+
+        <div class="form-group">
+          <label for="resetEmail">Email Address</label>
+          <input type="email" id="resetEmail" class="form-control" [(ngModel)]="resetEmail" placeholder="Enter your registered email">
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" (click)="onForgotPassword()" [disabled]="isLoading || !resetEmail">
+          <span *ngIf="!isLoading">Send Reset OTP</span>
+          <span *ngIf="isLoading"><span class="spinner"></span> Sending...</span>
+        </button>
+
+        <div *ngIf="forgotMsg" style="margin-top: 12px; padding: 10px; border-radius: 6px; font-size: 0.9rem;" 
+             [ngStyle]="{'background-color': forgotError ? '#fef2f2' : '#f0fdf4', 'color': forgotError ? '#b91c1c' : '#15803d'}">
+          {{ forgotMsg }}
+        </div>
+
+        <div class="text-center mt-3">
+          <a href="javascript:void(0)" (click)="showForgotPassword = false" class="auth-link">Back to Login</a>
+        </div>
+      </div>
+
+      <!-- Forgot Password - Step 2: Enter OTP + New Password -->
+      <div *ngIf="showResetForm && !showOtpForm" class="forgot-password-form">
+        <h3 style="margin-bottom: 8px; color: var(--text-color, #333);">Set New Password</h3>
+        <p style="color: var(--text-light, #777); font-size: 0.9rem; margin-bottom: 20px;">Enter the OTP sent to <strong>{{ resetEmail }}</strong> and your new password.</p>
+
+        <div class="form-group">
+          <label for="resetOtp">OTP Code</label>
+          <input type="text" id="resetOtp" class="form-control" [(ngModel)]="resetOtp" placeholder="Enter 6-digit OTP" maxlength="6">
+        </div>
+
+        <div class="form-group">
+          <label for="resetNewPwd">New Password</label>
+          <input type="password" id="resetNewPwd" class="form-control" [(ngModel)]="resetNewPassword" placeholder="Enter new password">
+        </div>
+
+        <div class="form-group">
+          <label for="resetConfirmPwd">Confirm Password</label>
+          <input type="password" id="resetConfirmPwd" class="form-control" [(ngModel)]="resetConfirmPassword" placeholder="Confirm new password">
+        </div>
+
+        <div *ngIf="resetPasswordMismatch" style="margin-bottom: 12px; padding: 8px 12px; background-color: #fff5f5; color: #e53e3e; border: 1px solid #fed7d7; border-radius: 6px; font-size: 0.85rem;">
+          Passwords do not match.
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" (click)="onResetPassword()" [disabled]="isLoading || !resetOtp || !resetNewPassword || !resetConfirmPassword || resetPasswordMismatch">
+          <span *ngIf="!isLoading">Reset Password</span>
+          <span *ngIf="isLoading"><span class="spinner"></span> Resetting...</span>
+        </button>
+
+        <div *ngIf="forgotMsg" style="margin-top: 12px; padding: 10px; border-radius: 6px; font-size: 0.9rem;" 
+             [ngStyle]="{'background-color': forgotError ? '#fef2f2' : '#f0fdf4', 'color': forgotError ? '#b91c1c' : '#15803d'}">
+          {{ forgotMsg }}
+        </div>
+
+        <div class="text-center mt-3">
+          <a href="javascript:void(0)" (click)="showResetForm = false; showForgotPassword = false" class="auth-link">Back to Login</a>
+        </div>
+      </div>
+
+      <!-- OTP Form (Shown when user needs to verify) -->
+      <form *ngIf="showOtpForm" [formGroup]="otpForm" (ngSubmit)="onVerifyOtp()">
+        <div class="form-group">
+          <label for="otp">Enter 6-Digit Verification Code</label>
+          <input type="text" id="otp" class="form-control" formControlName="otp" placeholder="Enter OTP" maxlength="6"
+            [ngClass]="{'is-invalid': otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched}">
+          <div class="error-text" *ngIf="otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched">
+            Please enter a valid 6-digit code.
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="otpForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Verify Code & Login</span>
+          <span *ngIf="isLoading"><span class="spinner"></span> Verifying...</span>
+        </button>
+
+        <div class="text-center mt-3">
+          <p><a href="javascript:void(0)" class="auth-link" (click)="showOtpForm = false">Back to Login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="add-task-container">
+  <div class="add-task-card">
+    <div class="task-form-header">
+      <h2 class="form-title">{{ labels.postTaskTitle || 'Post a New Task' }}</h2>
+      <p class="form-subtitle">{{ labels.postTaskSubtitle || 'Describe what you need help with and find nearby helpers!' }}</p>
+    </div>
+    
+    <div *ngIf="msg" class="alert" [ngClass]="isError ? 'alert-danger' : 'alert-success'">
+      {{ msg }}
+    </div>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
+      <div class="form-group">
+        <label for="title">{{ labels.taskTitle || 'Task Title' }} <span class="required">*</span></label>
+        <input type="text" id="title" formControlName="title" class="form-control" placeholder="e.g. Help Moving Furniture">
+        <small *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched" class="error-text">
+          {{ labels.titleRequired || 'Title is required.' }}
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="description">{{ labels.description || 'Description' }} <span class="required">*</span></label>
+        <textarea id="description" formControlName="description" class="form-control" rows="4" placeholder="Describe the task in detail"></textarea>
+        <small *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched" class="error-text">
+          Description is required.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="location">{{ labels.location || 'Location' }} <span class="required">*</span></label>
+        <input type="text" id="location" formControlName="location" class="form-control" placeholder="Where should the helper meet you?">
+        <small *ngIf="taskForm.get('location')?.invalid && taskForm.get('location')?.touched" class="error-text">
+          Location is required.
+        </small>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label for="start_time">{{ labels.startTime || 'Start Time' }} <span class="required">*</span></label>
+          <input type="datetime-local" id="start_time" formControlName="start_time" class="form-control" [min]="minDateTime" max="9999-12-31T23:59">
+          <small *ngIf="taskForm.get('start_time')?.invalid && taskForm.get('start_time')?.touched" class="error-text">
+            Start Time is required.
+          </small>
+        </div>
+        <div class="form-group half-width">
+          <label for="end_time">{{ labels.endTime || 'End Time' }} <span style="font-weight: 400; color: #9ca3af; font-size: 0.85rem;">({{ labels.optional || 'optional' }})</span></label>
+          <input type="datetime-local" id="end_time" formControlName="end_time" class="form-control" [min]="minDateTime" max="9999-12-31T23:59">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="pay_amount">{{ labels.pay || 'Pay Offered' }} <span style="font-weight: 400; color: #9ca3af; font-size: 0.85rem;">({{ labels.optional || 'optional' }})</span></label>
+        <div class="pay-group" style="display: flex; gap: 0.5rem;">
+          <input type="number" id="pay_amount" formControlName="pay_amount" class="form-control" placeholder="Amount" style="flex: 2;">
+          <select id="pay_currency" formControlName="pay_currency" class="form-control" style="flex: 1;">
+            <option value="rs">₹ (Rs)</option>
+            <option value="$">$ (USD)</option>
+            <option value="€">€ (EUR)</option>
+            <option value="£">£ (GBP)</option>
+          </select>
+          <select id="pay_type" formControlName="pay_type" class="form-control" style="flex: 1.5;">
+            <option value="total">Total</option>
+            <option value="/ hr">per Hour</option>
+            <option value="/ day">per Day</option>
+            <option value="/ month">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="6 months">6 Months</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="picture">{{ labels.imageUrl || 'Image URL' }} <span style="font-weight: 400; color: #9ca3af; font-size: 0.85rem;">({{ labels.optional || 'optional' }})</span></label>
+        <input type="text" id="picture" formControlName="picture" class="form-control" placeholder="https://example.com/image.jpg">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">{{ labels.postTaskBtn || 'Post Task' }}</span>
+          <span *ngIf="isLoading"><span class="spinner"></span> {{ labels.creating || 'Creating...' }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
