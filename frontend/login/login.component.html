@@ -1,0 +1,37 @@
+<div class="auth-container">
+  <div class="auth-card">
+
+    <div class="icon">
+  <img src="https://cdn-icons-png.flaticon.com/128/16383/16383224.png" width="100">
+  </div>
+
+    <h2>Welcome Back</h2>
+    <p class="subtitle">Sign in to your HireHelper account</p>
+
+    <input 
+      type="email"
+      placeholder="Email address"
+      [(ngModel)]="loginData.email_id"
+    />
+
+    <input 
+      type="password"
+      placeholder="Enter your password"
+      [(ngModel)]="loginData.password"
+    />
+
+    <button (click)="login()">Sign In</button>
+
+    <p class="switch">
+      Don’t have an account?
+      <a routerLink="/register">Sign up</a>
+    </p>
+
+    <!-- ✅ Updated Message Section -->
+    <p *ngIf="message"
+       [ngClass]="isSuccess ? 'success-msg' : 'error-msg'">
+       {{ message }}
+    </p>
+
+  </div>
+</div>
