@@ -1,0 +1,113 @@
+.page{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#EBF8FF;
+font-family:'Poppins',sans-serif;
+}
+
+/* card */
+
+.register-card{
+background:white;
+padding:40px;
+width:380px;
+border-radius:12px;
+box-shadow:0 12px 30px rgba(0,0,0,0.1);
+}
+
+/* headings */
+
+.register-card h1{
+color:#1A365D;
+text-align:center;
+margin-bottom:5px;
+}
+
+.subtitle{
+text-align:center;
+color:#555;
+margin-bottom:25px;
+}
+
+/* labels */
+
+label{
+font-size:14px;
+color:#333;
+margin-top:10px;
+display:block;
+}
+
+/* inputs */
+
+input{
+width:100%;
+padding:14px;
+margin-top:6px;
+margin-bottom:14px;
+border-radius:8px;
+border:1px solid #d1d5db;
+font-size:14px;
+background:#f9fafb;
+}
+
+input:focus{
+outline:none;
+border-color:#1A365D;
+box-shadow:0 0 6px rgba(26,54,93,0.3);
+background:white;
+}
+
+/* main button */
+
+button{
+width:100%;
+padding:14px;
+background:#1A365D;
+color:white;
+border:none;
+border-radius:10px;
+font-size:15px;
+cursor:pointer;
+transition:0.25s;
+}
+
+button:hover{
+background:#142844;
+}
+
+/* divider */
+
+.divider{
+text-align:center;
+margin:20px 0;
+color:#777;
+}
+
+/* social buttons */
+
+.social{
+background:#f1f5f9;
+color:#333;
+margin-bottom:10px;
+}
+
+.social:hover{
+background:#e2e8f0;
+}
+
+/* login text */
+
+.login-text{
+text-align:center;
+margin-top:15px;
+font-size:14px;
+}
+
+.login-text a{
+color:#1A365D;
+text-decoration:none;
+font-weight:500;
+}

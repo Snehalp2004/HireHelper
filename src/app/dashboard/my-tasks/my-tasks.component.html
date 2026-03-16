@@ -1,0 +1,15 @@
+<h2>My Tasks</h2>
+
+<!-- Show message if no tasks -->
+<p *ngIf="tasks.length === 0">No tasks created yet.</p>
+
+<!-- Display each task as card -->
+<div *ngFor="let task of tasks" class="task-card">
+
+  <h3>{{task.title}}</h3>
+  <p>{{task.description}}</p>
+  <p><b>Location:</b> {{task.location}}</p>
+  <p><b>Start Time:</b> {{task.startTime}}</p>
+  <p><b>Status:</b> {{task.status || 'OPEN'}}</p>
+
+</div>

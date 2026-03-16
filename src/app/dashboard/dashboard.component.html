@@ -1,0 +1,71 @@
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <h2 class="logo">HireHelper</h2>
+
+    <nav>
+      <nav>
+  <a routerLink="/dashboard/feed" routerLinkActive="active">📰 Feed</a>
+  <a routerLink="/dashboard/my-tasks" routerLinkActive="active">📋 My Tasks</a>
+  <a routerLink="/dashboard/add-task" routerLinkActive="active">➕ Add Task</a>
+</nav>
+    </nav>
+
+  </div>
+
+
+  <!-- Main Content -->
+  <div class="main">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <h1>Dashboard</h1>
+
+      <button routerLink="/dashboard/add-task" class="add-btn">
+  + Add Task
+</button>
+    </div>
+
+
+    <!-- Welcome Section -->
+    <div class="welcome">
+      <h2>Welcome back 👋</h2>
+      <p>Manage your service requests and helpers from here.</p>
+    </div>
+
+
+    <!-- Stats Cards -->
+    <div class="stats">
+
+      <div class="stat-card">
+        <h3>Total Tasks</h3>
+        <p>12</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Active Tasks</h3>
+        <p>5</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Completed</h3>
+        <p>7</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Helpers Assigned</h3>
+        <p>3</p>
+      </div>
+
+    </div>
+
+
+    <!-- CHILD PAGES LOAD HERE -->
+    <router-outlet></router-outlet>
+
+
+  </div>
+
+</div>

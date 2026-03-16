@@ -1,0 +1,45 @@
+<div class="page">
+
+  <div class="login-card">
+
+    <h1 class="logo">HireHelper</h1>
+    <p class="subtitle">Sign in to continue</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+      <label>Email</label>
+      <input
+      type="email"
+      formControlName="email"
+      placeholder="Enter your email"
+      >
+
+      <label>Password</label>
+      <input
+      type="password"
+      formControlName="password"
+      placeholder="Enter your password"
+      >
+
+      <button type="submit">Login</button>
+
+    </form>
+
+    <div class="divider">or</div>
+
+    <button class="social google">
+      Sign in with Google
+    </button>
+
+    <button class="social apple">
+      Sign in with Apple
+    </button>
+
+    <p class="register-text">
+      Don't have an account?
+      <a routerLink="/register">Create Account</a>
+    </p>
+
+  </div>
+
+</div>

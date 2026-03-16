@@ -1,0 +1,25 @@
+<form [formGroup]="taskForm" (ngSubmit)="submitTask()">
+  <label>Title:</label>
+  <input type="text" formControlName="title">
+
+  <label>Description:</label>
+  <input type="text" formControlName="description">
+
+  <label>Location:</label>
+  <input type="text" formControlName="location">
+
+  <label>Start Time:</label>
+  <input type="datetime-local" formControlName="startTime">
+
+  <label>End Time (optional):</label>
+  <input type="datetime-local" formControlName="endTime">
+
+  <label>Picture (optional):</label>
+  <input type="text" formControlName="picture">
+
+  <!-- ✅ Add this Budget field -->
+  <label>Budget:</label>
+  <input type="number" formControlName="budget">
+
+  <button type="submit">Create Task</button>
+</form>

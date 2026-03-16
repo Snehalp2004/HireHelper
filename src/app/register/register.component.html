@@ -1,0 +1,60 @@
+<div class="page">
+
+  <div class="register-card">
+
+    <h1>HireHelper</h1>
+    <p class="subtitle">Create your account</p>
+
+    <form (ngSubmit)="onRegister()">
+
+      <label>Full Name</label>
+      <input
+      type="text"
+      name="name"
+      [(ngModel)]="formData.name"
+      placeholder="Enter your name"
+      required
+      >
+
+      <label>Email Address</label>
+      <input
+      type="email"
+      name="email"
+      [(ngModel)]="formData.email"
+      placeholder="Enter your email"
+      required
+      >
+
+      <label>Password</label>
+      <input
+      type="password"
+      name="password"
+      [(ngModel)]="formData.password"
+      placeholder="Create a password"
+      required
+      >
+
+      <button type="submit">
+        Create My Account
+      </button>
+
+    </form>
+
+    <div class="divider">or</div>
+
+    <button class="social google">
+      Sign up with Google
+    </button>
+
+    <button class="social github">
+      Sign up with GitHub
+    </button>
+
+    <p class="login-text">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+
+  </div>
+
+</div>

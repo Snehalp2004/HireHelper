@@ -1,0 +1,126 @@
+.page{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Inter',sans-serif;
+
+background: radial-gradient(circle at top,#2B6CB0,#1A365D);
+}
+
+/* glass card */
+
+.login-card{
+width:380px;
+padding:40px;
+border-radius:12px;
+
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+
+color:white;
+}
+
+/* logo */
+
+.logo{
+text-align:center;
+font-size:32px;
+margin-bottom:5px;
+}
+
+.subtitle{
+text-align:center;
+margin-bottom:25px;
+opacity:0.9;
+}
+
+/* labels */
+
+label{
+font-size:14px;
+display:block;
+margin-top:10px;
+}
+
+/* inputs */
+
+input{
+width:100%;
+padding:12px;
+margin-top:6px;
+margin-bottom:12px;
+
+border-radius:8px;
+border:none;
+
+background:rgba(255,255,255,0.2);
+color:white;
+}
+
+input::placeholder{
+color:#e2e8f0;
+}
+
+input:focus{
+outline:none;
+box-shadow:0 0 6px rgba(255,255,255,0.6);
+}
+
+/* login button */
+
+button{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+
+background:#2B6CB0;
+color:white;
+
+font-weight:500;
+cursor:pointer;
+
+transition:0.3s;
+}
+
+button:hover{
+background:#1A4F8A;
+transform:translateY(-1px);
+}
+
+/* divider */
+
+.divider{
+text-align:center;
+margin:20px 0;
+opacity:0.8;
+}
+
+/* social buttons */
+
+.social{
+background:white;
+color:#1A365D;
+margin-bottom:10px;
+}
+
+.social:hover{
+background:#f1f5f9;
+}
+
+/* register link */
+
+.register-text{
+text-align:center;
+margin-top:15px;
+font-size:14px;
+}
+
+.register-text a{
+color:#90cdf4;
+text-decoration:none;
+font-weight:500;
+}
