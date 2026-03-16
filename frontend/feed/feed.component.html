@@ -1,0 +1,70 @@
+<div class="feed-container">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    Loading tasks...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="!loading && errorMessage" class="error">
+    {{errorMessage}}
+  </div>
+
+  <!-- Empty Feed -->
+  <div *ngIf="!loading && tasks.length === 0" class="empty">
+    No tasks available
+  </div>
+
+  <!-- Task Grid -->
+  <div class="task-grid" *ngIf="!loading && tasks.length > 0">
+
+    <div class="task-card" *ngFor="let task of tasks">
+
+      <img
+        class="task-img"
+        [src]="task.picture ? 'http://localhost:5000' + task.picture : 'assets/default-task.jpg'"
+      />
+
+      <span class="category">{{task.category}}</span>
+
+      <h3>{{task.title}}</h3>
+
+      <p class="description">
+        {{task.description}}
+      </p>
+
+      <div class="info">
+        📍 {{task.location}}
+      </div>
+
+      <div class="info">
+        ⏰ {{task.start_time | date:'short'}}
+      </div>
+
+      <div class="card-footer">
+
+        <div class="user">
+
+          <img
+          class="avatar"
+          [src]="task.profile_picture 
+          ? 'http://localhost:5000' + task.profile_picture
+          : 'assets/default-avatar.png'"
+          >
+
+          <span>{{task.owner_name}}</span>
+
+        </div>
+
+        <button class="request-btn"
+        (click)="requestTask(task)">
+          Request Sent
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
