@@ -1,0 +1,114 @@
+<div class="auth-container">
+  <div class="auth-card">
+
+   <div class="icon">
+  <img src="https://cdn-icons-png.flaticon.com/512/3456/3456426.png" width="80">
+  </div>
+
+    <h2>Create Account</h2>
+    <p class="subtitle">Join HireHelper and start helping today</p>
+
+    <form #registerForm="ngForm" (ngSubmit)="register()" novalidate>
+
+      <!-- First Name -->
+      <input
+        type="text"
+        name="first_name"
+        placeholder="First Name"
+        [(ngModel)]="user.first_name"
+        #firstName="ngModel"
+        required
+      />
+      <small class="error-msg" *ngIf="firstName.invalid && firstName.touched">
+        First name is required
+      </small>
+
+      <!-- Last Name -->
+      <input
+        type="text"
+        name="last_name"
+        placeholder="Last Name"
+        [(ngModel)]="user.last_name"
+        #lastName="ngModel"
+        required
+      />
+      <small class="error-msg" *ngIf="lastName.invalid && lastName.touched">
+        Last name is required
+      </small>
+
+      <!-- Phone -->
+      <input
+        type="text"
+        name="phone_number"
+        placeholder="Phone Number"
+        [(ngModel)]="user.phone_number"
+        #phone="ngModel"
+        required
+        pattern="^[0-9]{10}$"
+      />
+      <small class="error-msg" *ngIf="phone.errors?.['required'] && phone.touched">
+        Phone number is required
+      </small>
+      <small class="error-msg" *ngIf="phone.errors?.['pattern'] && phone.touched">
+        Enter valid 10-digit phone number
+      </small>
+
+      <!-- Email -->
+      <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        [(ngModel)]="user.email_id"
+        #email="ngModel"
+        required
+        email
+      />
+      <small class="error-msg" *ngIf="email.invalid && email.touched">
+        Please enter a valid email address
+      </small>
+
+      <!-- Strong Password -->
+      <input
+        type="password"
+        name="password"
+        placeholder="Create Password"
+        [(ngModel)]="user.password"
+        #password="ngModel"
+        required
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
+      />
+
+      <small class="error-msg" *ngIf="password.errors?.['required'] && password.touched">
+        Password is required
+      </small>
+
+      <small class="error-msg" *ngIf="password.errors?.['pattern'] && password.touched">
+        Password must contain:
+        <br>• At least 8 characters
+        <br>• One uppercase letter
+        <br>• One lowercase letter
+        <br>• One number
+        <br>• One special character (&#64;$!%*?&)
+      </small>
+
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="registerForm.invalid">
+        Sign Up
+      </button>
+
+    </form>
+
+    <!-- Switch to Login -->
+    <p class="switch">
+      Already have an account?
+      <a routerLink="/login">Sign In</a>
+    </p>
+
+    <!-- Success / Error Message -->
+    <p *ngIf="message"
+       [ngClass]="isSuccess ? 'success-msg' : 'error-msg'">
+       {{ message }}
+    </p>
+
+  </div>
+</div>
