@@ -1,0 +1,133 @@
+<div class="add-task-container">
+
+  <div class="task-card">
+
+    <h3>Add New Task</h3>
+    <p class="sub">Create a task and find someone to help you</p>
+
+    <form (ngSubmit)="submitTask()" class="task-form">
+
+      <!-- Task Title -->
+      <label>Task Title</label>
+      <input
+        type="text"
+        placeholder="e.g. Help moving furniture"
+        [(ngModel)]="task.title"
+        name="title"
+        required
+      />
+
+      <!-- Description -->
+      <label>Description</label>
+      <textarea
+        rows="4"
+        placeholder="Describe what help you need"
+        [(ngModel)]="task.description"
+        name="description"
+        required>
+      </textarea>
+
+      <!-- Category -->
+      <label>Category</label>
+      <select
+        [(ngModel)]="task.category"
+        name="category"
+        required
+      >
+        <option value="">Select Category</option>
+        <option value="Cleaning">Cleaning</option>
+        <option value="Delivery">Delivery</option>
+        <option value="Moving">Moving</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Repair">Repair</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <!-- Location -->
+      <label>Location</label>
+      <input
+        type="text"
+        placeholder="Enter location"
+        [(ngModel)]="task.location"
+        name="location"
+        required
+      />
+
+      <!-- Date Section -->
+      <div class="date-row">
+
+        <div class="date-group">
+
+          <label>Start Date</label>
+          <input
+            type="date"
+            [(ngModel)]="task.start_date"
+            name="start_date"
+            required
+          />
+
+          <label>Start Time</label>
+          <input
+            type="time"
+            [(ngModel)]="task.start_time"
+            name="start_time"
+            required
+          />
+
+        </div>
+
+        <div class="date-group">
+
+          <label>End Date (Optional)</label>
+          <input
+            type="date"
+            [(ngModel)]="task.end_date"
+            name="end_date"
+          />
+
+          <label>End Time (Optional)</label>
+          <input
+            type="time"
+            [(ngModel)]="task.end_time"
+            name="end_time"
+          />
+
+        </div>
+
+      </div>
+
+      <!-- Upload Image -->
+      <label>Task Image (Optional)</label>
+
+      <div class="upload-box">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Select image from your computer</p>
+
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+
+        <button type="submit" class="post-btn">
+          Post Task
+        </button>
+
+        <button
+          type="button"
+          routerLink="/dashboard/my-tasks"
+          class="cancel-btn">
+          Cancel
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
